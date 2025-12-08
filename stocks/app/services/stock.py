@@ -1,17 +1,39 @@
-'''    # ο χρηστης θα βάζει την ημερομηνία εκκινησης και τερματισμού, η εφαρμογή θα πρέπει να βρει την
-    #ημερομηνία και να συνεχισει καθε μηνα να προσθετει το ποσο που θελουμε
-    stock_name = "AETF.AT"
-    stock = yfinance.Ticker(stock_name) #πρεπει να περάσω μεταβλητή
-    stock_history = stock.history(start=2023-12-11, end=2025-12-5) #πρεπει οι ημερομηνίες να είναι μεταβλητές
-    # Check if stock exists
-    db_stock_name = 
-    if Stocks.objects.get(stock_name) == stock_name:
-        if Stocks.objects.get('last_updated') >= end_date:
-            return result ###
+import pandas as pd
+import yfinance
+from app.models import Stocks, StocksHistory
 
-    
-    else:  ###
-        pass  ###'''
+
 
 def stock_calculation(name):
-    pass
+    stock = yfinance.Ticker(name)
+    stock_history = stock.history(period="max", interval="1d")
+
+    df = pd.DataFrame(stock_history)
+    # with reset index, date goes to a column and we have numbers for indexes
+    df = df.reset_index()
+    # removing the hours from the date and the gmt
+    df['Date'] = pd.to_datetime(df['Date']).dt.date
+
+    stock_obj, created = Stocks.objects.get_or_create(name=name)
+    if created:
+        print(f"Δημιουργήθηκε νέο Stock: {name}")
+
+    for row in df.itertuples():
+        StocksHistory.objects.create(
+            stock_id = stock_obj,
+            date = row.Date,
+            close = row.Close,
+            dividends = row.Dividends
+        )
+        
+        
+        
+
+# stock_calculation('AETF.AT')
+
+
+
+'''    db_stock_name = 
+    if Stocks.objects.get(stock_name) == stock_name:
+        if Stocks.objects.get('last_updated') >= end_date:
+'''

@@ -16,5 +16,5 @@ class StocksHistory(models.Model):
     stock_id = models.ForeignKey(Stocks, on_delete=models.CASCADE,)
 
     def __str__(self):
-        return f'{self.stock_id.name} -->  {self.close[-1]}'
+        return f'{self.stock_id.name} -->  {self.close}'
 
