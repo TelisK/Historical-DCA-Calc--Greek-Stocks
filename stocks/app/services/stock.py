@@ -6,49 +6,63 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
 
+def stock_calculation(asset: str, start_date, end_date, amount_per_month, fixed_amount):
+    #stock = yfinance.Ticker("AETF.AT")
+    stock = yfinance.Ticker(asset)
+    info = stock.info
+    history = stock.history(period="max")
+    df = pd.DataFrame(history)
+    df = df.reset_index() # Περνάμε το date απο index σε column και δημιουργουμε indexes με αριθμους
+    df['Date'] = pd.to_datetime(df['Date']) # Make it datetime form
+    df['Date'] = df['Date'].dt.tz_localize(None) # Remove GMT
 
-stock = yfinance.Ticker("AETF.AT")
-info = stock.info
-history = stock.history(period="2y")
-df = pd.DataFrame(history)
-df = df.reset_index() # Περνάμε το date απο index σε column και δημιουργουμε indexes με αριθμους
-df['Date'] = pd.to_datetime(df['Date']) # Το κάνουμε τυπου datetime
-df['Date'] = df['Date'].dt.tz_localize(None) # Αφαιρούμε το gmt
+    #startdate = datetime(2023, 1, 1)
+    #enddate = datetime(2024, 4, 1)
+    #monthly_amount = 100
+    startdate = datetime.strptime(start_date, '%Y-%m-%d')
+    enddate = datetime.strptime(end_date, '%Y-%m-%d')
+    monthly_amount = float(amount_per_month)
+    dividend = 0
+    date = startdate
+    dates = []
+    invested_amount = 0
+    total_value = 0
+    profit = 0
+    total_shares = 0
 
-startdate = datetime(2023, 1, 1)
-enddate = date = datetime(2024, 4, 1)
-monthly_amount = 100
-dividend = 0
-date = startdate
-dates = []
-invested_amount = 0
-total_value = 0
-profit = 0
-#previous_close_price = 0
-total_shares = 0
-while enddate > date:
-    mask = df['Date'] == date
-    if not df.loc[mask].empty:
-        close_price = df.loc[mask].Close.iloc[0]
-    else:
-        date = df[df['Date'] > date].iloc[0]['Date']
-        mask = df['Date'] == date
-        close_price = df.loc[mask].Close.iloc[0]
-    print(f'τιμή {close_price}')
-    shares = monthly_amount/close_price
-    total_shares += shares
-    print(f'αριθμός μετοχών {total_shares}')
-    if previous_close_price == 0:
-        total_value = monthly_amount
-    else:
+    while enddate > date:
+        mask = df['Date'] == date  # returns True at the position date is. Afterwards we use mask to locate the date.
+
+        if not df.loc[mask].empty:
+            close_price = df.loc[mask].Close.iloc[0]
+        else:
+            date = df[df['Date'] > date].iloc[0]['Date']
+            mask = df['Date'] == date
+            close_price = df.loc[mask].Close.iloc[0]
+
+        shares = monthly_amount / close_price
+        total_shares += shares
         total_value = total_shares * close_price
-    #previous_close_price = close_price
-    dividend = dividend + df.loc[mask].Dividends.iloc[0]
-    invested_amount += monthly_amount
-    profit += total_value - invested_amount
-    dates.append(date)
-    date = date + relativedelta(months=1)
-print(f'Επένδυσες {invested_amount}, έχεις σύνολο {profit + invested_amount}, κέρδος {profit}. Τα μερίσματα σου είναι {dividend}, αγόρασες {total_shares} μετοχές')
+
+        dividend = dividend + df.loc[mask].Dividends.iloc[0]
+        invested_amount += monthly_amount
+        profit += total_value - invested_amount
+
+        dates.append(date)
+        date = date + relativedelta(months=1)
+
+    result = {
+        'total_investment':invested_amount,
+        'value': total_value,
+        'shares': total_shares,
+        'profit': profit,
+        'dividend': dividend,
+        'total_amount': invested_amount + profit + dividend
+
+    }
+        
+    return result
+    #print(f'Επένδυσες {invested_amount}, έχεις σύνολο {profit + invested_amount}, κέρδος {profit}. Τα μερίσματα σου είναι {dividend}, αγόρασες {total_shares} μετοχές')
 
 
 
