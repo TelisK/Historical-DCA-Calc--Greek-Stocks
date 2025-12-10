@@ -42,9 +42,13 @@
             <div class="col-md-4 pt-5">
                 <label for="asset">Investment Asset</label>
                 <select class="form-select" name="asset" id="asset">
-                    <option value="SPY">S&amp;P 500 ETF (SPY)</option>
                     <option value="AETF.AT">ALPHA ETF FTSE (AETF.AT)</option>
-                    <option value="AAPL">Apple Inc. (AAPL)</option>
+                    <option value="9O1.F">Athens International Airport S.A. (9O1.F)</option>
+                    <option value="GF8.F">Organization of Football Prognostics S.A. (GF8.F)</option>
+                    <option value="SPY">S&amp;P 500 ETF (SPY)</option>
+                    <option value="SPY">S&amp;P 500 ETF (SPY)</option>
+                    <option value="SPY">S&amp;P 500 ETF (SPY)</option>
+                    <option value="SPY">S&amp;P 500 ETF (SPY)</option>
                 </select>
             </div>
 
@@ -75,7 +79,7 @@
 
             <div class="col-md-3 pt-5">
                 <label class="pt-5">
-                    <input type="checkbox" name="compare"> Compare with S&amp;P 500 ETF
+                    <input type="checkbox" name="compare" id="compare"> Compare with S&amp;P 500 ETF
                 </label>
             </div>
 
@@ -87,23 +91,23 @@
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">Total Investment</h5>
-                        <p class="card-text">{{ value }} €</p>
+                        <p class="card-text">{{ result.total_investment|floatformat:2 }} €</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="card text-center">
                     <div class="card-body">
-                        <h5 class="card-title">Final Value</h5>
-                        <p class="card-text">{{ value }} €</p>
+                        <h5 class="card-title">Total Value</h5>
+                        <p class="card-text">{{ result.total_amount|floatformat:2 }} €</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="card text-center">
                     <div class="card-body">
-                        <h5 class="card-title">Total Gain</h5>
-                        <p class="card-text">{{ value }} €</p>
+                        <h5 class="card-title">Profit</h5>
+                        <p class="card-text">{{ result.profit|floatformat:2 }} €</p>
                     </div>
                 </div>
             </div>
@@ -111,7 +115,7 @@
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">Annualized Return</h5>
-                        <p class="card-text">{{ value }} €</p>
+                        <p class="card-text">{{ result.annualized_return|floatformat:2 }} %</p>
                     </div>
                 </div>
             </div>
@@ -119,6 +123,48 @@
         </div>
 
     </div>
+
+    {% if snp500 %}
+        <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Investment</h5>
+                        <p class="card-text">{{ snp500.total_investment|floatformat:2 }} €</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Value</h5>
+                        <p class="card-text">{{ snp500.total_amount|floatformat:2 }} €</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Profit</h5>
+                        <p class="card-text">{{ snp500.profit|floatformat:2 }} €</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Annualized Return</h5>
+                        <p class="card-text">{{ snp500.annualized_return|floatformat:2 }} %</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endif %}
 </div>
 
 

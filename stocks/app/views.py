@@ -14,6 +14,7 @@ def index(request):
         start_date = request.POST.get('startdate', '')
         end_date = request.POST.get('enddate','')
         
+
         result = stock_calculation(
             asset=asset,
             start_date=start_date,
@@ -21,8 +22,23 @@ def index(request):
             amount_per_month=amount_per_month,
             fixed_amount=fixed_amount
         )
+
+        compare = request.POST.get('compare') == 'on'
+
+        if compare:
+            snp500 = stock_calculation(
+            asset='VUAA.DE',
+            start_date=start_date,
+            end_date=end_date,
+            amount_per_month=amount_per_month,
+            fixed_amount=fixed_amount
+            )
+        else:
+            snp500 = None
+
+
         print(result)
-        return render(request, 'app/index.html',{'result':result})
+        return render(request, 'app/index.html',{'result':result, 'snp500':snp500, 'compare':compare})
         
 
     return render(request, 'app/index.html')

@@ -1,7 +1,7 @@
 import pandas as pd
 import yfinance
 from app.models import Stocks, StocksHistory
-
+import numpy as np  
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
@@ -46,18 +46,22 @@ def stock_calculation(asset: str, start_date, end_date, amount_per_month, fixed_
 
         dividend = dividend + df.loc[mask].Dividends.iloc[0]
         invested_amount += monthly_amount
-        profit += total_value - invested_amount
 
         dates.append(date)
         date = date + relativedelta(months=1)
 
+    profit = total_value - invested_amount
+    total_amount = invested_amount + profit
+    pow_calc = 1/(len(dates)/12) # using len of dates to find the years
+    annual_return = ((np.power((total_amount / invested_amount), pow_calc)) -1 ) * 100
+
     result = {
         'total_investment':invested_amount,
-        'value': total_value,
+        'annualized_return': annual_return,
         'shares': total_shares,
         'profit': profit,
         'dividend': dividend,
-        'total_amount': invested_amount + profit + dividend
+        'total_amount': total_amount
 
     }
         
