@@ -22,11 +22,13 @@ def stock_calculation(asset: str, start_date, end_date, amount_per_month, fixed_
     startdate = datetime.strptime(start_date, '%Y-%m-%d')
     enddate = datetime.strptime(end_date, '%Y-%m-%d')
     monthly_amount = float(amount_per_month)
+    monthly_amount_list = []
     dividend = 0
     date = startdate
     dates = []
     invested_amount = 0
     total_value = 0
+    total_value_list = []
     profit = 0
     total_shares = 0
 
@@ -43,6 +45,8 @@ def stock_calculation(asset: str, start_date, end_date, amount_per_month, fixed_
         shares = monthly_amount / close_price
         total_shares += shares
         total_value = total_shares * close_price
+        total_value_list.append(total_value)
+        monthly_amount_list.append(monthly_amount)
 
         dividend = dividend + df.loc[mask].Dividends.iloc[0]
         invested_amount += monthly_amount
@@ -56,13 +60,20 @@ def stock_calculation(asset: str, start_date, end_date, amount_per_month, fixed_
     annual_return = ((np.power((total_amount / invested_amount), pow_calc)) -1 ) * 100
 
     result = {
+        'summary':{
         'total_investment':invested_amount,
         'annualized_return': annual_return,
         'shares': total_shares,
         'profit': profit,
         'dividend': dividend,
-        'total_amount': total_amount
+        'total_amount': total_amount,
 
+    },
+    'chart':{
+        'total_value_list': total_value_list,
+        'monthly_amount_list': monthly_amount_list,
+        'dates': dates
+    }
     }
         
     return result

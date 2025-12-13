@@ -2,6 +2,10 @@ from django.shortcuts import render
 from .models import Stocks, StocksHistory
 from dateutil.relativedelta import relativedelta
 from app.services.stock import stock_calculation
+from datetime import date
+from plotly.offline import plot
+from plotly.graph_objs import Scatter
+
 
 
 
@@ -14,6 +18,7 @@ def index(request):
         start_date = request.POST.get('startdate', '')
         end_date = request.POST.get('enddate','')
         
+        '''today = date.today()'''
 
         result = stock_calculation(
             asset=asset,
@@ -37,8 +42,37 @@ def index(request):
             snp500 = None
 
 
-        print(result)
-        return render(request, 'app/index.html',{'result':result, 'snp500':snp500, 'compare':compare})
+        total_data = result['chart']['total_value_list']
+        month_data = result['chart']['monthly_amount_list']
+        dates = result['chart']['dates']
+        dates = [d.strftime('%Y-%m-%d') for d in dates]
+
+        trace1 = Scatter(x=dates, y=total_data, mode='lines+markers', name='Total Value',
+                        opacity=0.8, marker_color='green',)
+        trace2 = Scatter(x=dates, y=month_data, mode='lines+markers', name='Investment',
+                        opacity=0.8, marker_color='green',)
+        
+        plot_div = plot([trace1, trace2], output_type='div')
+
+
+
+
+
+        context = {'summary':result['summary'],
+                   'snp500':snp500,
+                   'compare':compare,
+                   ''''today':today,'''
+                   ''''chart': result['chart'],'''
+                   'plot_div':plot_div,
+                   'snp500sum':snp500['summary'] if snp500 else None,
+                   'snp500chart':snp500['chart'] if snp500 else None,
+                   }
+
+
+        # print(result)
+        print(f'---Ημερομηνίες: {type(dates[0])}---')
+        print(plot_div[:500])
+        return render(request, 'app/index.html', context)
         
 
     return render(request, 'app/index.html')

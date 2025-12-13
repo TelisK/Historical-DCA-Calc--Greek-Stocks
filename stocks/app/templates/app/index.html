@@ -13,6 +13,15 @@
 </head>
 
 <body>
+
+<pre>
+RESULT: {{ result }}
+SUMMARY: {{ summary }}
+COMPARE: {{ compare }}
+SNP500: {{ snp500 }}
+</pre>
+
+
     <div class="container">
         <div class="row">
             <div class="col-md-7">
@@ -64,12 +73,13 @@
 
             <div class="col-md-4 pt-5">
                 <label for="date" class="mt-3">Start Date</label>
-                <input type="date" id="startdate" name="startdate" class="form-control">
+                <input type="date" id="startdate" name="startdate" class="form-control" value="2018-07-22">
             </div>
 
             <div class="col-md-4 pt-5">
                 <label for="date" class="mt-3">End Date</label>
-                <input type="date" id="enddate" name="enddate" class="form-control">
+                <!-- value="{{ today|date:'Y-m-d' }}" -->
+                <input type="date" id="enddate" name="enddate" class="form-control" value="2025-11-01">
             </div>
 
             <div class="col-md-1 pt-5">
@@ -91,7 +101,7 @@
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">Total Investment</h5>
-                        <p class="card-text">{{ result.total_investment|floatformat:2 }} €</p>
+                        <p class="card-text">{{ summary.total_investment|floatformat:2 }} €</p>
                     </div>
                 </div>
             </div>
@@ -99,7 +109,7 @@
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">Total Value</h5>
-                        <p class="card-text">{{ result.total_amount|floatformat:2 }} €</p>
+                        <p class="card-text">{{ summary.total_amount|floatformat:2 }} €</p>
                     </div>
                 </div>
             </div>
@@ -107,7 +117,7 @@
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">Profit</h5>
-                        <p class="card-text">{{ result.profit|floatformat:2 }} €</p>
+                        <p class="card-text">{{ summary.profit|floatformat:2 }} €</p>
                     </div>
                 </div>
             </div>
@@ -115,7 +125,7 @@
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">Annualized Return</h5>
-                        <p class="card-text">{{ result.annualized_return|floatformat:2 }} %</p>
+                        <p class="card-text">{{ summary.annualized_return|floatformat:2 }} %</p>
                     </div>
                 </div>
             </div>
@@ -131,7 +141,7 @@
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">Total Investment</h5>
-                        <p class="card-text">{{ snp500.total_investment|floatformat:2 }} €</p>
+                        <p class="card-text">{{ snp500sum.total_investment|floatformat:2 }} €</p>
                     </div>
                 </div>
             </div>
@@ -139,7 +149,7 @@
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">Total Value</h5>
-                        <p class="card-text">{{ snp500.total_amount|floatformat:2 }} €</p>
+                        <p class="card-text">{{ snp500sum.total_amount|floatformat:2 }} €</p>
                     </div>
                 </div>
             </div>
@@ -147,7 +157,7 @@
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">Profit</h5>
-                        <p class="card-text">{{ snp500.profit|floatformat:2 }} €</p>
+                        <p class="card-text">{{ snp500sum.profit|floatformat:2 }} €</p>
                     </div>
                 </div>
             </div>
@@ -155,7 +165,7 @@
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">Annualized Return</h5>
-                        <p class="card-text">{{ snp500.annualized_return|floatformat:2 }} %</p>
+                        <p class="card-text">{{ snp500sum.annualized_return|floatformat:2 }} %</p>
                     </div>
                 </div>
             </div>
@@ -165,8 +175,13 @@
     </div>
 
     {% endif %}
-</div>
 
+    <div style="width:100%;height:400px;">
+    {{ plot_div|safe }}
+    </div>
+
+
+</div>
 
 
 </body>
