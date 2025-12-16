@@ -5,7 +5,7 @@ from app.services.stock import stock_calculation
 from datetime import date
 from plotly.offline import plot
 from plotly.graph_objs import Scatter
-
+import plotly.graph_objs as go
 
 
 
@@ -42,7 +42,7 @@ def index(request):
             snp500 = None
 
 
-        total_data = result['chart']['total_value_list']
+        '''total_data = result['chart']['total_value_list']
         month_data = result['chart']['monthly_amount_list']
         dates = result['chart']['dates']
         dates = [d.strftime('%Y-%m-%d') for d in dates]
@@ -52,7 +52,46 @@ def index(request):
         trace2 = Scatter(x=dates, y=month_data, mode='lines+markers', name='Investment',
                         opacity=0.8, marker_color='red',)
         
-        plot_div = plot([trace1, trace2], output_type='div')
+        plot_div = plot([trace1, trace2], output_type='div')'''
+
+
+        dates = [
+                "2023-01-01",
+                "2023-02-01",
+                "2023-03-01",
+                "2023-04-01",
+            ]
+
+        investment = [1000, 1200, 1300, 1500]
+        profits = [0, 50, 120, 300]
+
+        # 2️⃣ Δημιουργία γραμμών
+        trace_investment = go.Scatter(
+            x=dates,
+            y=investment,
+            mode="lines",
+            name="Επένδυση"
+        )
+
+        trace_profits = go.Scatter(
+            x=dates,
+            y=profits,
+            mode="lines",
+            name="Κέρδη"
+        )
+
+        # 3️⃣ Layout (τίτλοι κτλ)
+        layout = go.Layout(
+            title="Επένδυση & Κέρδη",
+            xaxis=dict(title="Ημερομηνία"),
+            yaxis=dict(title="Ποσό (€)")
+        )
+
+        # 4️⃣ Φτιάχνουμε το figure
+        fig = go.Figure(data=[trace_investment, trace_profits], layout=layout)
+
+        # 5️⃣ Μετατροπή σε HTML (ΠΟΛΥ ΣΗΜΑΝΤΙΚΟ)
+        plot_div = plot(fig, output_type="div", include_plotlyjs=False)
 
 
 

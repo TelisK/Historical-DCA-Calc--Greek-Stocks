@@ -9,12 +9,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
+    <!-- <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> -->
+
     <title>Historical DCA for Greek Stocks</title>
 </head>
-
+<!-- <script src="https://cdn.plot.ly/plotly-3.3.0.min.js"></script> -->
 <body>
 
-<pre>
+    <pre>
 RESULT: {{ result }}
 SUMMARY: {{ summary }}
 COMPARE: {{ compare }}
@@ -44,149 +46,151 @@ SNP500: {{ snp500 }}
     </div>
 
     <div class="container">
-    <form method="POST">
-        {% csrf_token %}
-        <div class="row">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row">
 
-            <div class="col-md-4 pt-5">
-                <label for="asset">Investment Asset</label>
-                <select class="form-select" name="asset" id="asset">
-                    <option value="AETF.AT">ALPHA ETF FTSE (AETF.AT)</option>
-                    <option value="AIA.AT">Athens International Airport S.A. (AIA.AT)</option>
-                    <option value="OPAP.AT">Organization of Football Prognostics S.A. (OPAP.AT)</option>
-                    <option value="EUROB.AT">Eurobank Ergasias Services and Holdings S.A. (EUROB.AT)</option>
-                    <option value="EEE.AT">Coca-Cola HBC AG (EEE.AT)</option>
-                    <option value="ETE.AT">National Bank of Greece S.A. (ETE.AT)</option>
-                    <option value="TPEIR.AT">Piraeus Financial Holdings S.A. (TPEIR.AT)</option>
-                    <option value="ALPHA.AT">Alpha Bank S.A. (ALPHA.AT)</option>
-                    <option value="MTLN.AT">Metlen Energy & Metals PLC (MTLN.AT)</option>
-                    <option value="HTO.AT">Hellenic Telecommunications Organization S.A. (HTO.AT)</option>
-                    <option value="PPC.AT">Public Power Corporation S.A. (PPC.AT)</option>
-                    <option value="BELA.AT">Jumbo S.A. (BELA.AT)</option>
-                </select>
-            </div>
-
-            <div class="col-md-4 pt-5">
-                <label for="initial">Initial Investment (Optional)</label>
-                <input class="form-control" type="text" name="initial" id="initial" placeholder="enter amount here in €">
-            </div>
-
-            <div class="col-md-4 pt-5">
-                <label for="monthly">Monthly Contribution</label>
-                <input class="form-control" type="text" name="monthly" id="monthly" placeholder="enter amount here in €">
-            </div>
-
-            <div class="col-md-4 pt-5">
-                <label for="date" class="mt-3">Start Date</label>
-                <input type="date" id="startdate" name="startdate" class="form-control" value="2018-07-22">
-            </div>
-
-            <div class="col-md-4 pt-5">
-                <label for="date" class="mt-3">End Date</label>
-                <!-- value="{{ today|date:'Y-m-d' }}" -->
-                <input type="date" id="enddate" name="enddate" class="form-control" value="2025-11-01">
-            </div>
-
-            <div class="col-md-1 pt-5">
-                <button type="submit" class="mt-5 btn btn-primary mt-4">Calculate</button>
-
-            </div>
-
-            <div class="col-md-3 pt-5">
-                <label class="pt-5">
-                    <input type="checkbox" name="compare" id="compare"> Compare with S&amp;P 500 ETF
-                </label>
-            </div>
-
-        </div>
-    </form>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <h5 class="card-title">Total Investment</h5>
-                        <p class="card-text">{{ summary.total_investment|floatformat:2 }} €</p>
-                    </div>
+                <div class="col-md-4 pt-5">
+                    <label for="asset">Investment Asset</label>
+                    <select class="form-select" name="asset" id="asset">
+                        <option value="AETF.AT">ALPHA ETF FTSE (AETF.AT)</option>
+                        <option value="AIA.AT">Athens International Airport S.A. (AIA.AT)</option>
+                        <option value="OPAP.AT">Organization of Football Prognostics S.A. (OPAP.AT)</option>
+                        <option value="EUROB.AT">Eurobank Ergasias Services and Holdings S.A. (EUROB.AT)</option>
+                        <option value="EEE.AT">Coca-Cola HBC AG (EEE.AT)</option>
+                        <option value="ETE.AT">National Bank of Greece S.A. (ETE.AT)</option>
+                        <option value="TPEIR.AT">Piraeus Financial Holdings S.A. (TPEIR.AT)</option>
+                        <option value="ALPHA.AT">Alpha Bank S.A. (ALPHA.AT)</option>
+                        <option value="MTLN.AT">Metlen Energy & Metals PLC (MTLN.AT)</option>
+                        <option value="HTO.AT">Hellenic Telecommunications Organization S.A. (HTO.AT)</option>
+                        <option value="PPC.AT">Public Power Corporation S.A. (PPC.AT)</option>
+                        <option value="BELA.AT">Jumbo S.A. (BELA.AT)</option>
+                    </select>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <h5 class="card-title">Total Value</h5>
-                        <p class="card-text">{{ summary.total_amount|floatformat:2 }} €</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <h5 class="card-title">Profit</h5>
-                        <p class="card-text">{{ summary.profit|floatformat:2 }} €</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <h5 class="card-title">Annualized Return</h5>
-                        <p class="card-text">{{ summary.annualized_return|floatformat:2 }} %</p>
-                    </div>
-                </div>
-            </div>
 
-        </div>
+                <div class="col-md-4 pt-5">
+                    <label for="initial">Initial Investment (Optional)</label>
+                    <input class="form-control" type="text" name="initial" id="initial"
+                        placeholder="enter amount here in €">
+                </div>
 
-    </div>
+                <div class="col-md-4 pt-5">
+                    <label for="monthly">Monthly Contribution</label>
+                    <input class="form-control" type="text" name="monthly" id="monthly"
+                        placeholder="enter amount here in €">
+                </div>
 
-    {% if snp500 %}
+                <div class="col-md-4 pt-5">
+                    <label for="date" class="mt-3">Start Date</label>
+                    <input type="date" id="startdate" name="startdate" class="form-control" value="2018-07-22">
+                </div>
+
+                <div class="col-md-4 pt-5">
+                    <label for="date" class="mt-3">End Date</label>
+                    <!-- value="{{ today|date:'Y-m-d' }}" -->
+                    <input type="date" id="enddate" name="enddate" class="form-control" value="2025-11-01">
+                </div>
+
+                <div class="col-md-1 pt-5">
+                    <button type="submit" class="mt-5 btn btn-primary mt-4">Calculate</button>
+
+                </div>
+
+                <div class="col-md-3 pt-5">
+                    <label class="pt-5">
+                        <input type="checkbox" name="compare" id="compare"> Compare with S&amp;P 500 ETF
+                    </label>
+                </div>
+
+            </div>
+        </form>
         <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <h5 class="card-title">Total Investment</h5>
-                        <p class="card-text">{{ snp500sum.total_investment|floatformat:2 }} €</p>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Investment</h5>
+                            <p class="card-text">{{ summary.total_investment|floatformat:2 }} €</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <h5 class="card-title">Total Value</h5>
-                        <p class="card-text">{{ snp500sum.total_amount|floatformat:2 }} €</p>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Value</h5>
+                            <p class="card-text">{{ summary.total_amount|floatformat:2 }} €</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <h5 class="card-title">Profit</h5>
-                        <p class="card-text">{{ snp500sum.profit|floatformat:2 }} €</p>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Profit</h5>
+                            <p class="card-text">{{ summary.profit|floatformat:2 }} €</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <h5 class="card-title">Annualized Return</h5>
-                        <p class="card-text">{{ snp500sum.annualized_return|floatformat:2 }} %</p>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Annualized Return</h5>
+                            <p class="card-text">{{ summary.annualized_return|floatformat:2 }} %</p>
+                        </div>
                     </div>
                 </div>
+
             </div>
 
         </div>
 
+        {% if snp500 %}
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Investment</h5>
+                            <p class="card-text">{{ snp500sum.total_investment|floatformat:2 }} €</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Value</h5>
+                            <p class="card-text">{{ snp500sum.total_amount|floatformat:2 }} €</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Profit</h5>
+                            <p class="card-text">{{ snp500sum.profit|floatformat:2 }} €</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Annualized Return</h5>
+                            <p class="card-text">{{ snp500sum.annualized_return|floatformat:2 }} %</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+        <div>
+            <h2>debug</h2>
+                {{ plot_div|safe }}
+        </div>
+            
     </div>
-
-    {% endif %}
-
-    <div style="width:100%;height:400px;">
-    {{ plot_div | safe }}
-    </div>
-
-
-</div>
 
 
 </body>
