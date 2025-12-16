@@ -32,7 +32,7 @@ def index(request):
 
         if compare:
             snp500 = stock_calculation(
-            asset='VUAA.DE',
+            asset='SXR8.DE',
             start_date=start_date,
             end_date=end_date,
             amount_per_month=amount_per_month,
@@ -50,7 +50,7 @@ def index(request):
         trace1 = Scatter(x=dates, y=total_data, mode='lines+markers', name='Total Value',
                         opacity=0.8, marker_color='green',)
         trace2 = Scatter(x=dates, y=month_data, mode='lines+markers', name='Investment',
-                        opacity=0.8, marker_color='green',)
+                        opacity=0.8, marker_color='red',)
         
         plot_div = plot([trace1, trace2], output_type='div')
 
@@ -78,29 +78,3 @@ def index(request):
     return render(request, 'app/index.html')
 
 
-
-    
-
-
-'''def show_results(request, date):
-    if request.method == 'POST':
-        asset = request.POST.get('asset','')
-        initial = request.POST.get('initial', '')
-        monthly = request.POST.get('monthly', '')
-        startdate = request.POST.get('startdate', '')
-        enddate = request.POST.get('enddate','')
-
-        
-
-
-    stock_calculation(asset)
-    data = StocksHistory.objects.get(name=asset)
-    
-    if startdate == '':
-        pass # επεστρεψε να περασει ημερομηνία
-    else:
-        start_date_obj = datetime.strptime(startdate, "%Y-%m-%d").date()
-        end_date_obj = datetime.strptime(enddate, "%Y-%m-%d").date()
-        while next_month < end_date_obj:
-
-            next_month = start_date_obj + relativedelta(month=1)'''

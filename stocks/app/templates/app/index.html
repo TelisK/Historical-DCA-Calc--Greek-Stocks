@@ -52,12 +52,17 @@ SNP500: {{ snp500 }}
                 <label for="asset">Investment Asset</label>
                 <select class="form-select" name="asset" id="asset">
                     <option value="AETF.AT">ALPHA ETF FTSE (AETF.AT)</option>
-                    <option value="9O1.F">Athens International Airport S.A. (9O1.F)</option>
-                    <option value="GF8.F">Organization of Football Prognostics S.A. (GF8.F)</option>
-                    <option value="SPY">S&amp;P 500 ETF (SPY)</option>
-                    <option value="SPY">S&amp;P 500 ETF (SPY)</option>
-                    <option value="SPY">S&amp;P 500 ETF (SPY)</option>
-                    <option value="SPY">S&amp;P 500 ETF (SPY)</option>
+                    <option value="AIA.AT">Athens International Airport S.A. (AIA.AT)</option>
+                    <option value="OPAP.AT">Organization of Football Prognostics S.A. (OPAP.AT)</option>
+                    <option value="EUROB.AT">Eurobank Ergasias Services and Holdings S.A. (EUROB.AT)</option>
+                    <option value="EEE.AT">Coca-Cola HBC AG (EEE.AT)</option>
+                    <option value="ETE.AT">National Bank of Greece S.A. (ETE.AT)</option>
+                    <option value="TPEIR.AT">Piraeus Financial Holdings S.A. (TPEIR.AT)</option>
+                    <option value="ALPHA.AT">Alpha Bank S.A. (ALPHA.AT)</option>
+                    <option value="MTLN.AT">Metlen Energy & Metals PLC (MTLN.AT)</option>
+                    <option value="HTO.AT">Hellenic Telecommunications Organization S.A. (HTO.AT)</option>
+                    <option value="PPC.AT">Public Power Corporation S.A. (PPC.AT)</option>
+                    <option value="BELA.AT">Jumbo S.A. (BELA.AT)</option>
                 </select>
             </div>
 
@@ -177,7 +182,7 @@ SNP500: {{ snp500 }}
     {% endif %}
 
     <div style="width:100%;height:400px;">
-    {{ plot_div|safe }}
+    {{ plot_div | safe }}
     </div>
 
 
