@@ -76,7 +76,6 @@ def index(request):
         ax.set_ylabel('Amount')
         ax.grid()
 
-        #fig = plt.gcf()
         buffer = io.BytesIO()
         fig.savefig(buffer, format='png')
         buffer.seek(0)
