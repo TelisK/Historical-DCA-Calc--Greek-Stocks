@@ -186,8 +186,7 @@ SNP500: {{ snp500 }}
         {% endif %}
 
         <div>
-            <h2>debug</h2>
-                {{ plot_div|safe }}
+            <img src="data:image/png;base64,{{ plot }}">
         </div>
             
     </div>
