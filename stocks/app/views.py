@@ -44,22 +44,13 @@ def index(request):
         else:
             snp500 = None
 
-        def month_data_correction_for_chart(month_list):  # We use this to add every month amount with the previous one, and we can have a correct line in the chart.
-            new_month_list=list()
-            for i in range(len(month_list)):
-                if i == 0:
-                    new_month_list.append(month_list[i])
-                else:
-                    new_month_list.append(month_list[i] + new_month_list[i-1])
-            return new_month_list
 
 
 
         total_data = result['chart']['total_value_list']
-        month_data = result['chart']['monthly_amount_list']
-        month_data = month_data_correction_for_chart(month_data)
+        invested_data = result['chart']['invested_amount_list']
         dates = result['chart']['dates']
-        #dates = [d.strftime('%Y-%m-%d') for d in dates]
+
 
         fig, ax = plt.subplots()
 
@@ -67,10 +58,10 @@ def index(request):
             total_snp500_data = snp500['chart']['total_value_list']
             ax.plot(dates, total_data, linewidth=1, label='Total')
             ax.plot(dates, total_snp500_data, linewidth=1, label='S&P500')
-            ax.plot(dates, month_data, linewidth=1, label='Montly')
+            ax.plot(dates, invested_data, linewidth=1, label='Invested')
         else:
             ax.plot(dates, total_data, linewidth=1, label='Total')
-            ax.plot(dates, month_data, linewidth=1, label='Montly')
+            ax.plot(dates, invested_data, linewidth=1, label='Invested')
 
         ax.xaxis.set_major_locator(mdates.YearLocator())
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
@@ -98,8 +89,6 @@ def index(request):
                    }
 
 
-        # print(result)
-        print(f'---monthly: {month_data}---')
         return render(request, 'app/index.html', context)
         
 
