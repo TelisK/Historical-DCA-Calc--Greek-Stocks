@@ -42,6 +42,15 @@ def stock_calculation(asset: str, start_date, end_date, amount_per_month, fixed_
             mask = df['Date'] == date
             close_price = df.loc[mask].Close.iloc[0]
 
+# Προσπαθω να προσθεσω το fixed price αλλα δεν μου λειτουργει σωστα, πεταει σφαλμα στη διαιρεση. πρεπει να το δω με print
+
+
+        # if total_shares == 0 and fixed_amount:
+        #     try:
+        #         total_shares = float(fixed_amount) / float(close_price)
+        #     except (TypeError, ValueError, ZeroDivisionError):
+        #         total_shares = 0 
+
         shares = monthly_amount / close_price
         total_shares += shares
         total_value = total_shares * close_price

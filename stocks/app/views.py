@@ -63,9 +63,14 @@ def index(request):
 
         fig, ax = plt.subplots()
 
-
-        ax.plot(dates, total_data, linewidth=1, label='Total')
-        ax.plot(dates, month_data, linewidth=1, label='Montly')
+        if compare:
+            total_snp500_data = snp500['chart']['total_value_list']
+            ax.plot(dates, total_data, linewidth=1, label='Total')
+            ax.plot(dates, total_snp500_data, linewidth=1, label='S&P500')
+            ax.plot(dates, month_data, linewidth=1, label='Montly')
+        else:
+            ax.plot(dates, total_data, linewidth=1, label='Total')
+            ax.plot(dates, month_data, linewidth=1, label='Montly')
 
         ax.xaxis.set_major_locator(mdates.YearLocator())
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
