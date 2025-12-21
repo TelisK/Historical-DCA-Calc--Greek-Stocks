@@ -27,6 +27,7 @@ def stock_calculation(asset: str, start_date, end_date, amount_per_month, fixed_
     date = startdate
     dates = []
     invested_amount = 0
+    invested_amount_list = []
     total_value = 0
     total_value_list = []
     profit = 0
@@ -42,6 +43,19 @@ def stock_calculation(asset: str, start_date, end_date, amount_per_month, fixed_
             mask = df['Date'] == date
             close_price = df.loc[mask].Close.iloc[0]
 
+
+        if total_shares == 0 and fixed_amount:
+            try:
+                total_shares = float(fixed_amount) / float(close_price)
+                total_value = total_shares * close_price
+                total_value_list.append(total_value)
+                invested_amount += float(fixed_amount)
+                invested_amount_list.append(invested_amount)
+                dates.append(date)
+            except (ZeroDivisionError):
+                print('+++++ERROR++++++')
+                continue
+
         shares = monthly_amount / close_price
         total_shares += shares
         total_value = total_shares * close_price
@@ -50,6 +64,7 @@ def stock_calculation(asset: str, start_date, end_date, amount_per_month, fixed_
 
         dividend = dividend + df.loc[mask].Dividends.iloc[0]
         invested_amount += monthly_amount
+        invested_amount_list.append(invested_amount)
 
         dates.append(date)
         date = date + relativedelta(months=1)
@@ -71,11 +86,10 @@ def stock_calculation(asset: str, start_date, end_date, amount_per_month, fixed_
     },
     'chart':{
         'total_value_list': total_value_list,
-        'monthly_amount_list': monthly_amount_list,
+        'invested_amount_list': invested_amount_list,
         'dates': dates
     }
     }
         
     return result
-    #print(f'Επένδυσες {invested_amount}, έχεις σύνολο {profit + invested_amount}, κέρδος {profit}. Τα μερίσματα σου είναι {dividend}, αγόρασες {total_shares} μετοχές')
 

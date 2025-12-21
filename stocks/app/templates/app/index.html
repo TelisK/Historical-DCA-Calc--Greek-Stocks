@@ -16,12 +16,12 @@
 <!-- <script src="https://cdn.plot.ly/plotly-3.3.0.min.js"></script> -->
 <body>
 
-    <pre>
+    <!-- <pre>
 RESULT: {{ result }}
 SUMMARY: {{ summary }}
 COMPARE: {{ compare }}
 SNP500: {{ snp500 }}
-</pre>
+</pre> -->
 
 
     <div class="container">
@@ -186,8 +186,7 @@ SNP500: {{ snp500 }}
         {% endif %}
 
         <div>
-            <h2>debug</h2>
-                {{ plot_div|safe }}
+            <img src="data:image/png;base64,{{ plot }}">
         </div>
             
     </div>
