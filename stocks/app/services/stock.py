@@ -93,3 +93,4 @@ def stock_calculation(asset: str, start_date, end_date, amount_per_month, fixed_
         
     return result
 
+

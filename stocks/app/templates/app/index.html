@@ -184,61 +184,12 @@ SNP500: {{ snp500 }}
 
         {% endif %}
 
-<<<<<<< HEAD
         <div>
             <img src="data:image/png;base64,{{ plot }}">
         </div>
             
-=======
-       <div class="row mt-5">
-    <div class="col-12">
-        <div id="stockChart" style="height: 500px; width: 100%;">
-            </div>
-    </div>
-</div>
-
-{% if plot_exists %}
-<script>
-    // Παίρνουμε τα δεδομένα από το Django context
-    const dates = {{ dates_json|safe }};
-    const totalData = {{ total_data_json|safe }};
-    const monthData = {{ month_data_json|safe }};
-
-    const trace1 = {
-        x: dates,
-        y: totalData,
-        mode: 'lines+markers',
-        name: 'Total Value',
-        line: {color: 'green'}
-    };
-
-    const trace2 = {
-        x: dates,
-        y: monthData,
-        mode: 'lines+markers',
-        name: 'Investment',
-        line: {color: 'red'}
-    };
-
-    const layout = {
-        title: 'Stock Analysis DCA',
-        autosize: true,
-        margin: { l: 50, r: 50, b: 50, t: 50 }
-    };
-
-    const config = {responsive: true};
-
-    Plotly.newPlot('stockChart', [trace1, trace2], layout, config);
-</script>
-{% endif %}
-
->>>>>>> fee1d8420f3eb2fafe04efadd5ddb94d5336ae4e
     </div>
 
-    <div id="test-chart"></div>
-    <script>
-        Plotly.newPlot('test-chart', [{ x: [1, 2, 3], y: [10, 15, 13], type: 'scatter' }]);
-    </script>
 </body>
 
 </html>
