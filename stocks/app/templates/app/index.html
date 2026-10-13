@@ -1,14 +1,18 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
     <!-- <script src="https://cdn.plot.ly/plotly-3.3.0.min.js"></script> -->
     <link rel="stylesheet" href="{% static 'app/style.css' %}">
     <title>Historical DCA for Greek Stocks</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -23,9 +27,10 @@ SNP500: {{ snp500 }}
     <div class="page-container">
         <div class="header-container">
             <div class="header">
-                <h1>Start Your Calculation</h1>
+                <h1><img src="" alt="">DCA Calculator</h1>
+                <h3>Start Your Calculation</h3>
                 <div>
-                    <h4>Choose an investment, set how much you want to contribute, and discover how your wealth
+                    <h4>Choose an investment, set how much you want to contribute,<br>and discover how your wealth
                         might have grown with dollar-cost averaging.</h4>
                 </div>
             </div>
