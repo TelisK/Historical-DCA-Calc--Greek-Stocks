@@ -8,3 +8,4 @@ jupyter_test.ipynb
 .ipynb_checkpoints/
 __pycache__/
 *.pyc
+stocks/stocks/test_code_for_plotly.py
