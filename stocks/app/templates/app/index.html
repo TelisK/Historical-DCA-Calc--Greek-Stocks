@@ -106,24 +106,16 @@ SNP500: {{ snp500 }}
                         <p>{{ summary.total_investment|floatformat:2 }} €</p>
                     </div>
                     <div>
-                        <div>
-                            <h5>Total Value</h5>
-                            <p>{{ summary.total_amount|floatformat:2 }} €</p>
-                        </div>
+                        <h5>Total Value</h5>
+                        <p>{{ summary.total_amount|floatformat:2 }} €</p>
                     </div>
                     <div>
-                        <div>
-                            <h5>Profit</h5>
-                            <p>{{ summary.profit|floatformat:2 }} €</p>
-                        </div>
+                        <h5>Profit</h5>
+                        <p>{{ summary.profit|floatformat:2 }} €</p>
                     </div>
-                    <div class="col-md-3">
-                        <div class="card text-center">
-                            <div class="card-body">
-                                <h5 class="card-title">Annualized Return</h5>
-                                <p class="card-text">{{ summary.annualized_return|floatformat:2 }} %</p>
-                            </div>
-                        </div>
+                    <div>
+                        <h5>Annualized Return</h5>
+                        <p>{{ summary.annualized_return|floatformat:2 }} %</p>
                     </div>
 
                 </div>
@@ -131,51 +123,33 @@ SNP500: {{ snp500 }}
             </div>
 
             {% if snp500 %}
-            <div class="container mt-5">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="card text-center">
-                            <div class="card-body">
-                                <h5 class="card-title">Total Investment</h5>
-                                <p class="card-text">{{ snp500sum.total_investment|floatformat:2 }} €</p>
-                            </div>
-                        </div>
+            <div class="compare-container">
+                <div>
+                    <div>
+                        <h5>Total Investment</h5>
+                        <p>{{ snp500sum.total_investment|floatformat:2 }} €</p>
                     </div>
-                    <div class="col-md-3">
-                        <div class="card text-center">
-                            <div class="card-body">
-                                <h5 class="card-title">Total Value</h5>
-                                <p class="card-text">{{ snp500sum.total_amount|floatformat:2 }} €</p>
-                            </div>
-                        </div>
+                    <div>
+                        <h5>Total Value</h5>
+                        <p>{{ snp500sum.total_amount|floatformat:2 }} €</p>
                     </div>
-                    <div class="col-md-3">
-                        <div class="card text-center">
-                            <div class="card-body">
-                                <h5 class="card-title">Profit</h5>
-                                <p class="card-text">{{ snp500sum.profit|floatformat:2 }} €</p>
-                            </div>
-                        </div>
+                    <div>
+                        <h5>Profit</h5>
+                        <p>{{ snp500sum.profit|floatformat:2 }} €</p>
                     </div>
-                    <div class="col-md-3">
-                        <div class="card text-center">
-                            <div class="card-body">
-                                <h5 class="card-title">Annualized Return</h5>
-                                <p class="card-text">{{ snp500sum.annualized_return|floatformat:2 }} %</p>
-                            </div>
-                        </div>
+                    <div>
+                        <h5>Annualized Return</h5>
+                        <p>{{ snp500sum.annualized_return|floatformat:2 }} %</p>
                     </div>
-
                 </div>
-
             </div>
 
             {% endif %}
-
+            {% if summary %}
             <div>
                 <img src="data:image/png;base64,{{ plot }}">
             </div>
-
+            {% endif %}
         </div>
     </div>
 </body>
