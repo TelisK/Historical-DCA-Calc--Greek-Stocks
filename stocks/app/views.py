@@ -1,6 +1,6 @@
 import base64
 import io
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import urllib
 from .models import Stocks, StocksHistory
 from dateutil.relativedelta import relativedelta
@@ -53,21 +53,27 @@ def index(request):
             total_snp500_data = snp500['chart']['total_value_list']
             if len(total_snp500_data) != len(total_data):
                 messages.error(request, "The stocks dates don't fit. Please select different dates.")
-            investment_fig = px.line(
-                x=dates,
-                y=[total_data, invested_data, total_snp500_data],
-                title='Investment Result',
-                labels={'dates':'Years', 'value':'Amount'}
-            )
+                return redirect('index')
+            else:
+                investment_fig = px.line(
+                    {'Years':dates, 'Contributions':invested_data,
+                    'Contributions & Gains':total_data, 'S&P500': total_snp500_data},
+                    x='Years',
+                    y=['Contributions & Gains', 'Contributions', 'S&P500'],
+                    title='Investment Result',
+                    labels={'dates':'Years', 'value':'Amount','variable':''}
+                )
+    
         else:
             investment_fig = px.line(
-            x=dates,
-            y=[total_data, invested_data],
-            title='Investment Result',
-            labels={'dates':'Years', 'value':'Amount'}
-            )
+                {'Years':dates, 'Contributions':invested_data, 'Contributions & Gains':total_data},
+                x='Years',
+                y=['Contributions', 'Contributions & Gains'],
+                title='Investment Result',
+                labels={'dates':'Years', 'value':'Amount', 'variable':''}
+                )
 
-        investment_chart = investment_fig.to_html(include_plotlyjs='cdn',
+        investment_chart = investment_fig.to_html(include_plotlyjs=False, #We load plotly on html head
                         config={'responsive': True, 'displayModeBar': False},
                         full_html=False)
 
@@ -105,7 +111,7 @@ def index(request):
                    'asset': asset,
                    'investment_chart':investment_chart,
                 #    'plot':url,
-                #    'snp500sum':snp500['summary'] if snp500 else None,
+                   'snp500sum':snp500['summary'] if snp500 else None,
                 #    'snp500chart':snp500['chart'] if snp500 else None,
                    }
 

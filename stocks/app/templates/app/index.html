@@ -95,6 +95,15 @@ SNP500: {{ snp500 }}
                     </div>
                     <div class="calc">
                         <button type="submit">Calculate</button>
+                        {% if messages %}
+                        <div class="message-container">
+                            {% for message in messages %}
+                            <div class="alert alert-message-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </form>
