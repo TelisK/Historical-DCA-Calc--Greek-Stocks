@@ -100,20 +100,21 @@ SNP500: {{ snp500 }}
             </form>
             <div class="results-container">
                 {% if summary %}
-                <div>
-                    <div>
+                <p>You selected: {{ asset }}</p>
+                <div class="results">
+                    <div class="results-card">
                         <h5>Total Investment</h5>
                         <p>{{ summary.total_investment|floatformat:2 }} €</p>
                     </div>
-                    <div>
+                    <div class="results-card">
                         <h5>Total Value</h5>
                         <p>{{ summary.total_amount|floatformat:2 }} €</p>
                     </div>
-                    <div>
+                    <div class="results-card">
                         <h5>Profit</h5>
                         <p>{{ summary.profit|floatformat:2 }} €</p>
                     </div>
-                    <div>
+                    <div class="results-card">
                         <h5>Annualized Return</h5>
                         <p>{{ summary.annualized_return|floatformat:2 }} %</p>
                     </div>
@@ -124,20 +125,21 @@ SNP500: {{ snp500 }}
 
             {% if snp500 %}
             <div class="compare-container">
-                <div>
-                    <div>
+                <p>Compare with: SXR8.DE</p>
+                <div class="results">
+                    <div class="results-card">
                         <h5>Total Investment</h5>
                         <p>{{ snp500sum.total_investment|floatformat:2 }} €</p>
                     </div>
-                    <div>
+                    <div class="results-card">
                         <h5>Total Value</h5>
                         <p>{{ snp500sum.total_amount|floatformat:2 }} €</p>
                     </div>
-                    <div>
+                    <div class="results-card">
                         <h5>Profit</h5>
                         <p>{{ snp500sum.profit|floatformat:2 }} €</p>
                     </div>
-                    <div>
+                    <div class="results-card">
                         <h5>Annualized Return</h5>
                         <p>{{ snp500sum.annualized_return|floatformat:2 }} %</p>
                     </div>
@@ -146,9 +148,13 @@ SNP500: {{ snp500 }}
 
             {% endif %}
             {% if summary %}
-            <div>
-                <img src="data:image/png;base64,{{ plot }}">
+            <div class="chart-card">
+                <h3>Investment Result</h3>
+                {{ investment_chart | safe }}
             </div>
+            <!-- <div>
+                <img src="data:image/png;base64,{{ plot }}">
+            </div> -->
             {% endif %}
         </div>
     </div>

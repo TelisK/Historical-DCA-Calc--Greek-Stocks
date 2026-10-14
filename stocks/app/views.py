@@ -6,8 +6,10 @@ from .models import Stocks, StocksHistory
 from dateutil.relativedelta import relativedelta
 from app.services.stock import stock_calculation
 from datetime import date
-from matplotlib import pyplot as plt
-import matplotlib.dates as mdates
+import plotly.express as px
+from django.contrib import messages
+# from matplotlib import pyplot as plt
+# import matplotlib.dates as mdates
 
 
 # Create your views here.
@@ -47,41 +49,64 @@ def index(request):
         invested_data = result['chart']['invested_amount_list']
         dates = result['chart']['dates']
 
-
-        fig, ax = plt.subplots()
-
         if compare:
             total_snp500_data = snp500['chart']['total_value_list']
-            ax.plot(dates, total_data, linewidth=1, label='Total')
-            ax.plot(dates, total_snp500_data, linewidth=1, label='S&P500')
-            ax.plot(dates, invested_data, linewidth=1, label='Invested')
+            if len(total_snp500_data) != len(total_data):
+                messages.error(request, "The stocks dates don't fit. Please select different dates.")
+            investment_fig = px.line(
+                x=dates,
+                y=[total_data, invested_data, total_snp500_data],
+                title='Investment Result',
+                labels={'dates':'Years', 'value':'Amount'}
+            )
         else:
-            ax.plot(dates, total_data, linewidth=1, label='Total')
-            ax.plot(dates, invested_data, linewidth=1, label='Invested')
+            investment_fig = px.line(
+            x=dates,
+            y=[total_data, invested_data],
+            title='Investment Result',
+            labels={'dates':'Years', 'value':'Amount'}
+            )
 
-        ax.xaxis.set_major_locator(mdates.YearLocator())
-        ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+        investment_chart = investment_fig.to_html(include_plotlyjs='cdn',
+                        config={'responsive': True, 'displayModeBar': False},
+                        full_html=False)
 
-        ax.legend()
-        ax.set_title('Investment Result')
-        ax.set_xlabel('Years')
-        ax.set_ylabel('Amount')
-        ax.grid()
+        # fig, ax = plt.subplots()
 
-        buffer = io.BytesIO()
-        fig.savefig(buffer, format='png')
-        buffer.seek(0)
-        string=base64.b64encode(buffer.read())
-        url = urllib.parse.quote(string)
+        # if compare:
+        #     total_snp500_data = snp500['chart']['total_value_list']
+        #     ax.plot(dates, total_data, linewidth=1, label='Total')
+        #     ax.plot(dates, total_snp500_data, linewidth=1, label='S&P500')
+        #     ax.plot(dates, invested_data, linewidth=1, label='Invested')
+        # else:
+        #     ax.plot(dates, total_data, linewidth=1, label='Total')
+        #     ax.plot(dates, invested_data, linewidth=1, label='Invested')
+
+        # ax.xaxis.set_major_locator(mdates.YearLocator())
+        # ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+
+        # ax.legend()
+        # ax.set_title('Investment Result')
+        # ax.set_xlabel('Years')
+        # ax.set_ylabel('Amount')
+        # ax.grid()
+
+        # buffer = io.BytesIO()
+        # fig.savefig(buffer, format='png')
+        # buffer.seek(0)
+        # string=base64.b64encode(buffer.read())
+        # url = urllib.parse.quote(string)
 
 
 
         context = {'summary':result['summary'],
                    'snp500':snp500,
                    'compare':compare,
-                   'plot':url,
-                   'snp500sum':snp500['summary'] if snp500 else None,
-                   'snp500chart':snp500['chart'] if snp500 else None,
+                   'asset': asset,
+                   'investment_chart':investment_chart,
+                #    'plot':url,
+                #    'snp500sum':snp500['summary'] if snp500 else None,
+                #    'snp500chart':snp500['chart'] if snp500 else None,
                    }
 
 
