@@ -24,38 +24,23 @@
     border: solid 1px var(--border);
     background-color: var(--bg-main);
     border-radius: 16px;
-    margin: 0 100px;
-    padding: 30px;
+    margin: 0 20px;
+    padding: 20px;
 }
 .user-data-container{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    display: flex;
+    flex-direction: column;
+    /* display: grid;
+    grid-template-rows: repeat(7, 1fr);
     grid-template-areas: 
-    'asset initial'
-    'start-date end-date'
-    'monthly calc';
+    'asset'
+    'initial'
+    'start-date'
+    'end-date'
+    'monthly'
+    'calc'; */
 }
-.user-data-container .asset {
-    max-width: 80%;
-    grid-area: asset;
-}
-.user-data-container .initial {
-    max-width: 80%;
-    grid-area: initial;
-}
-.user-data-container .start-date {
-    grid-area: start-date;
-}
-.user-data-container .end-date {
-    grid-area: end-date;
-}
-.user-data-container .monthly {
-    grid-area: monthly;
-}
-.user-data-container .calc {
-    grid-area: calc;
-}
+
 .main-container select, .main-container input {
     box-sizing: border-box;
     font-size: 0.9rem;
@@ -63,9 +48,22 @@
     margin: 20px 0;
     border: 1px solid var(--border);
     border-radius: 8px;
-    background: var(--bg-main);
+    background: var(--white);
     color: var(--black);
     width: 100%;
+}
+.compare input {
+    width: auto;
+
+}
+.compare {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.compare-checkbox {
+    transform: scale(1.5);
+    accent-color: var(--black);
 }
 .main-container button {
     border-radius: 8px;
@@ -74,4 +72,40 @@
 .main-container button:hover {
     background-color: var(--black);
     color: var(--white);
+}
+
+@media screen and (min-width: 1000px) {
+    .main-container {
+    margin: 0 100px;
+    padding: 30px;
+    }       
+    .user-data-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: 
+    'asset initial'
+    'start-date end-date'
+    'monthly calc';
+    }
+    .user-data-container .asset {
+    /* max-width: 80%; */
+    grid-area: asset;
+    }
+    .user-data-container .initial {
+        /* max-width: 80%; */
+        grid-area: initial;
+    }
+    .user-data-container .start-date {
+        grid-area: start-date;
+    }
+    .user-data-container .end-date {
+        grid-area: end-date;
+    }
+    .user-data-container .monthly {
+        grid-area: monthly;
+    }
+    .user-data-container .calc {
+        grid-area: calc;
+    }
 }
