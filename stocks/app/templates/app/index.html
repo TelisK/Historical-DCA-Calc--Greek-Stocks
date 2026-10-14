@@ -45,30 +45,30 @@ SNP500: {{ snp500 }}
                     <div class="asset">
                         <label for="asset">Investment Asset</label>
                         <select name="asset" id="asset">
-                            <option value="AETF.AT">ALPHA ETF FTSE (AETF.AT)</option>
-                            <option value="AIA.AT">Athens International Airport S.A. (AIA.AT)</option>
-                            <option value="OPAP.AT">Organization of Football Prognostics S.A. (OPAP.AT)</option>
-                            <option value="EUROB.AT">Eurobank Ergasias Services and Holdings S.A. (EUROB.AT)</option>
-                            <option value="EEE.AT">Coca-Cola HBC AG (EEE.AT)</option>
-                            <option value="ETE.AT">National Bank of Greece S.A. (ETE.AT)</option>
-                            <option value="TPEIR.AT">Piraeus Financial Holdings S.A. (TPEIR.AT)</option>
-                            <option value="ALPHA.AT">Alpha Bank S.A. (ALPHA.AT)</option>
-                            <option value="MTLN.AT">Metlen Energy & Metals PLC (MTLN.AT)</option>
-                            <option value="HTO.AT">Hellenic Telecommunications Organization S.A. (HTO.AT)</option>
-                            <option value="PPC.AT">Public Power Corporation S.A. (PPC.AT)</option>
-                            <option value="BELA.AT">Jumbo S.A. (BELA.AT)</option>
+                            <option value="AETF.AT" {% if form_data.asset == AETF.AT %}selected{% endif %}>ALPHA ETF FTSE (AETF.AT)</option>
+                            <option value="AIA.AT" {% if form_data.asset == AIA.AT %}selected{% endif %}>Athens International Airport S.A. (AIA.AT)</option>
+                            <option value="OPAP.AT" {% if form_data.asset == OPAP.AT %}selected{% endif %}>Organization of Football Prognostics S.A. (OPAP.AT)</option>
+                            <option value="EUROB.AT" {% if form_data.asset == EUROB.AT %}selected{% endif %}>Eurobank Ergasias Services and Holdings S.A. (EUROB.AT)</option>
+                            <option value="EEE.AT" {% if form_data.asset == EEE.AT %}selected{% endif %}>Coca-Cola HBC AG (EEE.AT)</option>
+                            <option value="ETE.AT" {% if form_data.asset == ETE.AT %}selected{% endif %}>National Bank of Greece S.A. (ETE.AT)</option>
+                            <option value="TPEIR.AT" {% if form_data.asset == TPEIR.AT %}selected{% endif %}>Piraeus Financial Holdings S.A. (TPEIR.AT)</option>
+                            <option value="ALPHA.AT" {% if form_data.asset == ALPHA.AT %}selected{% endif %}>Alpha Bank S.A. (ALPHA.AT)</option>
+                            <option value="MTLN.AT" {% if form_data.asset == MTLN.AT %}selected{% endif %}>Metlen Energy & Metals PLC (MTLN.AT)</option>
+                            <option value="HTO.AT" {% if form_data.asset == HTO.AT %}selected{% endif %}>Hellenic Telecommunications Organization S.A. (HTO.AT)</option>
+                            <option value="PPC.AT" {% if form_data.asset == PPC.AT %}selected{% endif %}>Public Power Corporation S.A. (PPC.AT)</option>
+                            <option value="BELA.AT" {% if form_data.asset == BELA.AT %}selected{% endif %}>Jumbo S.A. (BELA.AT)</option>
                         </select>
                     </div>
 
                     <div class="initial">
                         <label for="initial">Initial Investment (Optional)</label>
-                        <input type="text" name="initial" id="initial" placeholder="enter amount here in €">
+                        <input type="text" name="initial" id="initial" placeholder="enter amount here in €" value="{{ form_data.initial }}">
                     </div>
 
                     <div class="monthly">
                         <label for="monthly">Monthly Contribution </label><span>Amount: <output id="value"></output>
                             €</span>
-                        <input type="range" name="monthly" id="monthly" min="25" max="2000" value="100">
+                        <input type="range" name="monthly" id="monthly" min="25" max="2000" value="{{ form_data.monthly|default:'100' }}">
                     </div>
                     <script>
                         const value = document.querySelector("#value");
@@ -81,17 +81,17 @@ SNP500: {{ snp500 }}
 
                     <div class="start-date">
                         <label for="date">Start Date</label>
-                        <input type="date" id="startdate" name="startdate" value="2018-07-22">
+                        <input type="date" id="startdate" name="startdate" value="{{ form_data.startdate|default:'2018-07-22' }}">
                     </div>
 
                     <div class="end-date">
                         <label for="date" class="mt-3">End Date</label>
                         <!-- value="{{ today|date:'Y-m-d' }}" -->
-                        <input type="date" id="enddate" name="enddate" value="2025-11-01">
+                        <input type="date" id="enddate" name="enddate" value="{{ form_data.enddate|default:'2026-10-01' }}">
                     </div>
                     <div class="compare">
                         <label>Compare with S&amp;P 500 ETF</label>
-                        <input type="checkbox" name="compare" id="compare" class="compare-checkbox">
+                        <input type="checkbox" name="compare" id="compare" {% if form_data.compare %}checked{% endif %} class="compare-checkbox">
                     </div>
                     <div class="calc">
                         <button type="submit">Calculate</button>

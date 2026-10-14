@@ -14,6 +14,10 @@ from django.contrib import messages
 
 # Create your views here.
 def index(request):
+    ASSETS = {
+
+    }
+    
     if request.method == 'POST':
         asset = request.POST.get('asset','')
         fixed_amount = request.POST.get('initial', '')
@@ -53,7 +57,7 @@ def index(request):
             total_snp500_data = snp500['chart']['total_value_list']
             if len(total_snp500_data) != len(total_data):
                 messages.error(request, "The stocks dates don't fit. Please select different dates.")
-                return redirect('index')
+                return render(request, 'app/index.html', {'form_data': request.POST})
             else:
                 investment_fig = px.line(
                     {'Years':dates, 'Contributions':invested_data,
@@ -72,6 +76,15 @@ def index(request):
                 title='Investment Result',
                 labels={'dates':'Years', 'value':'Amount', 'variable':''}
                 )
+            
+        investment_fig.update_layout(
+        autosize=True,
+        margin=dict(l=10, r=10, t=30, b=30),  # margins for the chart
+        font=dict(size=10),                     # smaller font
+        title=dict(font=dict(size=12)),     # smaller title font size
+        legend_title_text='',     # removes the word variable from legend
+        legend=dict(   # default orientation 'v', legend is on the right side of the chart.
+        orientation='h') )
 
         investment_chart = investment_fig.to_html(include_plotlyjs=False, #We load plotly on html head
                         config={'responsive': True, 'displayModeBar': False},
@@ -113,6 +126,7 @@ def index(request):
                 #    'plot':url,
                    'snp500sum':snp500['summary'] if snp500 else None,
                 #    'snp500chart':snp500['chart'] if snp500 else None,
+                'form_data': request.POST,
                    }
 
 
@@ -120,6 +134,6 @@ def index(request):
         return render(request, 'app/index.html', context)
         
 
-    return render(request, 'app/index.html')
+    return render(request, 'app/index.html', {'form_data': request.POST})
 
 

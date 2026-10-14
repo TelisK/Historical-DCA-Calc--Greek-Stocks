@@ -12,6 +12,7 @@
     --black: #3a4139;
     --white: #c9ded6;
     --muted: #475569;
+    --error: #9431318e;
 }
 
 .header-container {
@@ -103,6 +104,14 @@
 }
 .compare-container p:first-of-type {
     text-align: center;
+}
+.message-container {
+    position: fixed;
+    top: 50px;
+    left: 50px;
+    padding: 20px;
+    background-color: var(--error);
+    border-radius: 8px;
 }
 @media screen and (min-width: 1000px) {
     .main-container {
