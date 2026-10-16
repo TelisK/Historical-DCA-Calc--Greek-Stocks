@@ -14,9 +14,21 @@ from django.contrib import messages
 
 # Create your views here.
 def index(request):
-    ASSETS = {
 
-    }
+    ASSETS = {
+    'AETF.AT':'ALPHA ETF FTSE (AETF.AT)',
+    'AIA.AT':'Athens International Airport S.A. (AIA.AT)',
+    'OPAP.AT':'Organization of Football Prognostics S.A. (OPAP.AT)',
+    'EUROB.AT':'Eurobank Ergasias Services and Holdings S.A. (EUROB.AT)',
+    'EEE.AT':'Coca-Cola HBC AG (EEE.AT)',
+    'ETE.AT':'National Bank of Greece S.A. (ETE.AT)',
+    'TPEIR.AT':'Piraeus Financial Holdings S.A. (TPEIR.AT)',
+    'ALPHA.AT':'Alpha Bank S.A. (ALPHA.AT)',
+    'MTLN.AT':'Metlen Energy & Metals PLC (MTLN.AT)',
+    'HTO.AT':'Hellenic Telecommunications Organization S.A. (HTO.AT)',
+    'PPC.AT':'Public Power Corporation S.A. (PPC.AT)',
+    'BELA.AT':'Jumbo S.A. (BELA.AT)',
+}
     
     if request.method == 'POST':
         asset = request.POST.get('asset','')
@@ -57,7 +69,12 @@ def index(request):
             total_snp500_data = snp500['chart']['total_value_list']
             if len(total_snp500_data) != len(total_data):
                 messages.error(request, "The stocks dates don't fit. Please select different dates.")
-                return render(request, 'app/index.html', {'form_data': request.POST})
+                
+                context = {
+                    'form_data': request.POST if request.method == 'POST' else {},
+                    'ASSETS':ASSETS,
+                }
+                return render(request, 'app/index.html', context)
             else:
                 investment_fig = px.line(
                     {'Years':dates, 'Contributions':invested_data,
@@ -119,21 +136,25 @@ def index(request):
 
 
         context = {'summary':result['summary'],
-                   'snp500':snp500,
-                   'compare':compare,
+                   'ASSETS': ASSETS,
+                   'snp500': snp500,
+                   'compare': compare,
                    'asset': asset,
                    'investment_chart':investment_chart,
                 #    'plot':url,
                    'snp500sum':snp500['summary'] if snp500 else None,
                 #    'snp500chart':snp500['chart'] if snp500 else None,
-                'form_data': request.POST,
+                'form_data': request.POST if request.method == 'POST' else {},
                    }
 
 
 
         return render(request, 'app/index.html', context)
         
-
-    return render(request, 'app/index.html', {'form_data': request.POST})
+    context = {
+        'form_data': request.POST if request.method == 'POST' else {},
+        'ASSETS': ASSETS
+    }
+    return render(request, 'app/index.html', context)
 
 

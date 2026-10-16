@@ -45,18 +45,9 @@ SNP500: {{ snp500 }}
                     <div class="asset">
                         <label for="asset">Investment Asset</label>
                         <select name="asset" id="asset">
-                            <option value="AETF.AT" {% if form_data.asset == AETF.AT %}selected{% endif %}>ALPHA ETF FTSE (AETF.AT)</option>
-                            <option value="AIA.AT" {% if form_data.asset == AIA.AT %}selected{% endif %}>Athens International Airport S.A. (AIA.AT)</option>
-                            <option value="OPAP.AT" {% if form_data.asset == OPAP.AT %}selected{% endif %}>Organization of Football Prognostics S.A. (OPAP.AT)</option>
-                            <option value="EUROB.AT" {% if form_data.asset == EUROB.AT %}selected{% endif %}>Eurobank Ergasias Services and Holdings S.A. (EUROB.AT)</option>
-                            <option value="EEE.AT" {% if form_data.asset == EEE.AT %}selected{% endif %}>Coca-Cola HBC AG (EEE.AT)</option>
-                            <option value="ETE.AT" {% if form_data.asset == ETE.AT %}selected{% endif %}>National Bank of Greece S.A. (ETE.AT)</option>
-                            <option value="TPEIR.AT" {% if form_data.asset == TPEIR.AT %}selected{% endif %}>Piraeus Financial Holdings S.A. (TPEIR.AT)</option>
-                            <option value="ALPHA.AT" {% if form_data.asset == ALPHA.AT %}selected{% endif %}>Alpha Bank S.A. (ALPHA.AT)</option>
-                            <option value="MTLN.AT" {% if form_data.asset == MTLN.AT %}selected{% endif %}>Metlen Energy & Metals PLC (MTLN.AT)</option>
-                            <option value="HTO.AT" {% if form_data.asset == HTO.AT %}selected{% endif %}>Hellenic Telecommunications Organization S.A. (HTO.AT)</option>
-                            <option value="PPC.AT" {% if form_data.asset == PPC.AT %}selected{% endif %}>Public Power Corporation S.A. (PPC.AT)</option>
-                            <option value="BELA.AT" {% if form_data.asset == BELA.AT %}selected{% endif %}>Jumbo S.A. (BELA.AT)</option>
+                            {% for code, name  in ASSETS.items %}
+                            <option value="{{ code }}" {% if form_data.asset == code %}selected{% endif %}>{{ name }}</option>
+                            {% endfor %}
                         </select>
                     </div>
 
