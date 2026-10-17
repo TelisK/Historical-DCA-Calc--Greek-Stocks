@@ -73,16 +73,17 @@ def index(request):
         invested_data = result['chart']['invested_amount_list']
         dates = result['chart']['dates']
 
-        d = {'total_data':total_data, 'invested_data':invested_data, 'dates':dates}
+        d = {'Contributions & Gains':total_data, 'Contributions':invested_data, 'dates':dates}
         df = pd.DataFrame(d)
 
         if compare:
             total_snp500_data = snp500['chart']['total_value_list']
             try:
-                df['total_snp500_data'] = total_snp500_data
+                df['S&P500'] = total_snp500_data
 
             except ValueError:
-                messages.error(request, "One of the stocks didn't exist yet at the selected start date. Please adjust your date range")
+                newer_stock_date = df['dates'][0].strftime('%d-%m-%Y')
+                messages.error(request, f"One of the stocks didn't exist yet at the selected start date. Please adjust your date to start from {newer_stock_date}")
                                 
                 context = {
                     'form_data': request.POST if request.method == 'POST' else {},
@@ -94,7 +95,7 @@ def index(request):
             investment_fig = px.line(
                 df,
                 x='dates',
-                y=['total_data', 'invested_data', 'total_snp500_data'],
+                y=['Contributions & Gains', 'Contributions', 'S&P500'],
                 title='Investment Result',
                 labels={'dates':'Years', 'value':'Amount','variable':''}
             )
@@ -103,7 +104,7 @@ def index(request):
             investment_fig = px.line(
                 df,
                 x='dates',
-                y=['invested_data', 'total_data'],
+                y=['Contributions', 'Contributions & Gains'],
                 title='Investment Result',
                 labels={'dates':'Years', 'value':'Amount', 'variable':''}
                 )
