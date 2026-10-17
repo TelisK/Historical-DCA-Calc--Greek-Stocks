@@ -8,6 +8,7 @@ from app.services.stock import stock_calculation
 from datetime import date
 import plotly.express as px
 from django.contrib import messages
+import pandas as pd
 # from matplotlib import pyplot as plt
 # import matplotlib.dates as mdates
 
@@ -72,31 +73,37 @@ def index(request):
         invested_data = result['chart']['invested_amount_list']
         dates = result['chart']['dates']
 
+        d = {'total_data':total_data, 'invested_data':invested_data, 'dates':dates}
+        df = pd.DataFrame(d)
+
         if compare:
             total_snp500_data = snp500['chart']['total_value_list']
-            if len(total_snp500_data) != len(total_data):
-                messages.error(request, "The stocks dates don't fit. Please select different dates.")
-                
+            try:
+                df['total_snp500_data'] = total_snp500_data
+
+            except ValueError:
+                messages.error(request, "One of the stocks didn't exist yet at the selected start date. Please adjust your date range")
+                                
                 context = {
                     'form_data': request.POST if request.method == 'POST' else {},
                     'ASSETS':ASSETS,
                 }
                 return render(request, 'app/index.html', context)
-            else:
-                investment_fig = px.line(
-                    {'Years':dates, 'Contributions':invested_data,
-                    'Contributions & Gains':total_data, 'S&P500': total_snp500_data},
-                    x='Years',
-                    y=['Contributions & Gains', 'Contributions', 'S&P500'],
-                    title='Investment Result',
-                    labels={'dates':'Years', 'value':'Amount','variable':''}
-                )
+
+            
+            investment_fig = px.line(
+                df,
+                x='dates',
+                y=['total_data', 'invested_data', 'total_snp500_data'],
+                title='Investment Result',
+                labels={'dates':'Years', 'value':'Amount','variable':''}
+            )
     
         else:
             investment_fig = px.line(
-                {'Years':dates, 'Contributions':invested_data, 'Contributions & Gains':total_data},
-                x='Years',
-                y=['Contributions', 'Contributions & Gains'],
+                df,
+                x='dates',
+                y=['invested_data', 'total_data'],
                 title='Investment Result',
                 labels={'dates':'Years', 'value':'Amount', 'variable':''}
                 )
