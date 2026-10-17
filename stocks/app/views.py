@@ -46,6 +46,13 @@ def index(request):
             amount_per_month=amount_per_month,
             fixed_amount=fixed_amount
         )
+        if result == None:
+            messages.error(request, 'Something went wrong. Check the dates')
+            context = {
+                'form_data': request.POST if request.method == 'POST' else {},
+                'ASSETS':ASSETS,
+            }
+            return render(request, 'app/index.html', context)
 
         compare = request.POST.get('compare') == 'on'
 

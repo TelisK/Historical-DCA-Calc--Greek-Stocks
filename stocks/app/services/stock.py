@@ -33,6 +33,9 @@ def stock_calculation(asset: str, start_date, end_date, amount_per_month, fixed_
     profit = 0
     total_shares = 0
 
+    if date > enddate:
+        return None
+
     while enddate > date:
         mask = df['Date'] == date  # returns True at the position date is. Afterwards we use mask to locate the date.
 
