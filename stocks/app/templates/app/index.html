@@ -18,18 +18,10 @@
 
 <body>
 
-    <!-- <pre>
-RESULT: {{ result }}
-SUMMARY: {{ summary }}
-COMPARE: {{ compare }}
-SNP500: {{ snp500 }}
-</pre> -->
-
     <div class="page-container">
         <div class="header-container">
             <div class="header">
                 <h1><img src="" alt="">DCA Calculator</h1>
-                <h3>Start Your Calculation</h3>
                 <div>
                     <h4>Choose an investment, set how much you want to contribute and discover how your wealth
                         might have grown with dollar-cost averaging.</h4>
@@ -38,6 +30,7 @@ SNP500: {{ snp500 }}
         </div>
 
         <div class="main-container">
+            <h3>Start Your Calculation</h3>
             <form method="POST">
                 {% csrf_token %}
                 <div class="user-data-container">

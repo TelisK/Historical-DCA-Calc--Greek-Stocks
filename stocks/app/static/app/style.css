@@ -13,6 +13,7 @@
     --white: #c9ded6;
     --muted: #475569;
     --error: #a73fbadd;
+    --header: #5c957f;
 }
 
 .header-container {
@@ -32,17 +33,12 @@
 .user-data-container{
     display: flex;
     flex-direction: column;
-    /* display: grid;
-    grid-template-rows: repeat(7, 1fr);
-    grid-template-areas: 
-    'asset'
-    'initial'
-    'start-date'
-    'end-date'
-    'monthly'
-    'calc'; */
 }
-
+.main-container h3 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--header);
+}
 .main-container select, .main-container input {
     box-sizing: border-box;
     font-size: 0.9rem;
@@ -143,12 +139,12 @@
     }       
     .user-data-container{
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     grid-template-areas: 
-    'asset initial'
-    'start-date end-date'
-    'monthly calc';
+    'asset initial monthly'
+    'start-date end-date compare';
+    gap: 20px;
     }
     .user-data-container .asset {
     /* max-width: 80%; */
@@ -167,8 +163,14 @@
     .user-data-container .monthly {
         grid-area: monthly;
     }
+    .user-data-container .compare {
+        grid-area: compare;
+    }
+    .main-container button {
+        transform: scale(1.5);
+    }
     .user-data-container .calc {
-        grid-area: calc;
+        margin-left: 30px;
     }
     .results {
     display: flex;
