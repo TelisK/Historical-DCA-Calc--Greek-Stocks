@@ -12,7 +12,6 @@ services:
       - SQLITE_PATH=/app/data/db.sqlite3
     volumes:
       - ./static:/app/stocks/static
-      - ./data:/app/stocks/data
     expose:
       - "8000"
     networks:
