@@ -83,6 +83,7 @@ def index(request):
 
             except ValueError:
                 newer_stock_date = df['dates'][0].strftime('%d-%m-%Y')
+                print(df['dates'])
                 messages.error(request, f"One of the stocks didn't exist yet at the selected start date. Please adjust your date to start from {newer_stock_date}")
                                 
                 context = {

@@ -2,10 +2,12 @@
 db.sqlite3
 .env/
 env/
+venv/
 test.py
 test_http_request.py
 jupyter_test.ipynb
 .ipynb_checkpoints/
 __pycache__/
 *.pyc
-stocks/stocks/test_code_for_plotly.py
+test_code_for_plotly.py
+.notes.txt

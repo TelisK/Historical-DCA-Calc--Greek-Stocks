@@ -1,0 +1,25 @@
+services:
+  web:
+    build: .
+    restart: always
+    command: >
+      sh -c "python manage.py collectstatic --noinput &&
+         python manage.py migrate &&
+         gunicorn stocks.wsgi:application --bind 0.0.0.0:8000 --workers 1 --threads 4 --timeout 120 --access-logfile - --error-logfile -"
+    environment:
+      - SQLITE_PATH=/app/data/db.sqlite3
+    volumes:
+      - ./static:/app/stocks/static
+      - ./data:/app/stocks/data
+    expose:
+      - "8000"
+    networks:
+      default:
+      proxy:
+        aliases:
+          - stocks-web
+
+
+networks:
+  proxy:
+    external: true
