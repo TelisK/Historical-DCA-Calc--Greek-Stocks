@@ -2,6 +2,7 @@
 db.sqlite3
 .env/
 env/
+.env
 venv/
 test.py
 test_http_request.py
