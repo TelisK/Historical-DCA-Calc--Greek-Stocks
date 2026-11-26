@@ -15,15 +15,17 @@ A lightweight Django application for analyzing the historical performance of Gre
   - Portfolio value.
   - Investment profit.
   - Annualized return persentage.
+  - Visualize results with a performance chart.
+  
 - Optionally compare the investment against the **S&P 500** (`SXR8.DE`).
-- Visualize results with a performance chart.
+
 
 ## Technologies
 
 - Python
 - Django
-- Matplotlib
-- SQLite (or any database supported by Django ORM)
+- Plotly
+- SQLite
 
 
 ## Installation
