@@ -5,7 +5,7 @@ import urllib
 from .models import Stocks, StocksHistory
 from dateutil.relativedelta import relativedelta
 from app.services.stock import stock_calculation
-from datetime import date
+from datetime import date, datetime, timedelta
 import plotly.express as px
 from django.contrib import messages
 import pandas as pd
@@ -45,6 +45,14 @@ def index(request):
                 'ASSETS':ASSETS,
             }
             return render(request, 'app/index.html', context)
+
+        # If the start date is Saturday or Sunday we have some errors. With the following code we return to Friday.
+        date_check = datetime.strptime(start_date, "%Y-%m-%d")
+        if date_check.weekday() >= 5:
+            days_before = date_check.weekday() - 2
+            date_check = date_check - timedelta(days_before)
+            start_date = date_check.strftime("%Y-%m-%d")
+        
 
         result = stock_calculation(
             asset=asset,

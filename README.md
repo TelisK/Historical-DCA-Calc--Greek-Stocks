@@ -62,6 +62,18 @@ Install the dependencies:
 pip install -r requirements.txt
 ```
 
+Create .env file:
+```bash
+cp .env.example .env
+```
+
+Create SECRET_KEY:
+```bash
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+```
+*paste it inside .env file*
+
+
 Change folder:
 ```bash
 cd stocks
