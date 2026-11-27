@@ -9,9 +9,10 @@ services:
     env_file:
       - .env
     environment:
-      - SQLITE_PATH=/app/data/db.sqlite3
+      - SQLITE_PATH=/app/stocks/data/db.sqlite3
     volumes:
       - ./static:/app/stocks/static
+      - ./data:/app/stocks/data
     expose:
       - "8000"
     networks:
