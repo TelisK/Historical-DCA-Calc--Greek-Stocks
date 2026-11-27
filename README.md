@@ -19,14 +19,13 @@ A lightweight Django application for analyzing the historical performance of Gre
   
 - Optionally compare the investment against the **S&P 500** (`SXR8.DE`).
 
+## Tech Stack
 
-## Technologies
-
-- Python
-- Django
-- Plotly
-- SQLite
-
+- **Python 3.12.3**
+- **Backend:** Django 6.1.3
+- **Database:** Sqlite
+- **Frontend:** HTML, CSS
+- **Visualize:** Plotly
 
 ## Installation
 
@@ -100,6 +99,11 @@ http://127.0.0.1:8000/
 - The S&P 500 comparison is performed using the **SXR8.DE** ETF.
 - Calculations are based on historical price data.
 - Past performance does not guarantee future results.
+
+## Author
+
+Tilemachos Koutsogiannakis  
+GitHub: [@TelisK](https://github.com/TelisK)
 
 ## License
 
