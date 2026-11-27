@@ -9,8 +9,6 @@ from datetime import date
 import plotly.express as px
 from django.contrib import messages
 import pandas as pd
-# from matplotlib import pyplot as plt
-# import matplotlib.dates as mdates
 
 
 # Create your views here.
@@ -37,8 +35,16 @@ def index(request):
         amount_per_month = request.POST.get('monthly', '')
         start_date = request.POST.get('startdate', '')
         end_date = request.POST.get('enddate','')
+        today = date.today()
         
-        #today = date.today()
+        if start_date > str(today) or end_date > str(today):
+            
+            messages.error(request, 'The application presents only the past performance of the stocks.')
+            context = {
+                'form_data': request.POST if request.method == 'POST' else {},
+                'ASSETS':ASSETS,
+            }
+            return render(request, 'app/index.html', context)
 
         result = stock_calculation(
             asset=asset,
@@ -122,33 +128,6 @@ def index(request):
         investment_chart = investment_fig.to_html(include_plotlyjs=False, #We load plotly on html head
                         config={'responsive': True, 'displayModeBar': False},
                         full_html=False)
-
-        # fig, ax = plt.subplots()
-
-        # if compare:
-        #     total_snp500_data = snp500['chart']['total_value_list']
-        #     ax.plot(dates, total_data, linewidth=1, label='Total')
-        #     ax.plot(dates, total_snp500_data, linewidth=1, label='S&P500')
-        #     ax.plot(dates, invested_data, linewidth=1, label='Invested')
-        # else:
-        #     ax.plot(dates, total_data, linewidth=1, label='Total')
-        #     ax.plot(dates, invested_data, linewidth=1, label='Invested')
-
-        # ax.xaxis.set_major_locator(mdates.YearLocator())
-        # ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
-
-        # ax.legend()
-        # ax.set_title('Investment Result')
-        # ax.set_xlabel('Years')
-        # ax.set_ylabel('Amount')
-        # ax.grid()
-
-        # buffer = io.BytesIO()
-        # fig.savefig(buffer, format='png')
-        # buffer.seek(0)
-        # string=base64.b64encode(buffer.read())
-        # url = urllib.parse.quote(string)
-
 
 
         context = {'summary':result['summary'],

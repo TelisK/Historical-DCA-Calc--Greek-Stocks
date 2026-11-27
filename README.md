@@ -62,6 +62,11 @@ Install the dependencies:
 pip install -r requirements.txt
 ```
 
+Change folder:
+```bash
+cd stocks
+```
+
 Run the database migrations:
 
 ```bash
